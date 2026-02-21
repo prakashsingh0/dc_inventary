@@ -15,10 +15,10 @@ function App() {
       <Navbar onSearch={setSearchValue} />
 
       <Routes>
-        {/* ✅ Homepage = Data Centers */}
+        {/* Homepage = Data Centers */}
         <Route path="/" element={<DataCenterList />} />
 
-        {/* ✅ Servers inside selected Data Center */}
+        {/*  Servers inside selected Data Center */}
         <Route
           path="/servers/:dataCenterId"
           element={<Servers searchValue={searchValue} />}
