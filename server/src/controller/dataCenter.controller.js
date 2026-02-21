@@ -38,3 +38,20 @@ export const addDataCenter = async (req, res) => {
     });
   }
 };
+
+export const getDataCenters = async (req, res) => {
+  try {
+    const dataCenters = await DataCenter.find().sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      data: dataCenters,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch data centers",
+      error: error.message,
+    });
+  }
+};
