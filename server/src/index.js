@@ -49,12 +49,10 @@ app.get("/health", (req, res) => {
 //  Production Static Serving (Vite build → dist)
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/dist")));
-
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+    res.sendFile(path.join(__dirname, "../client", "dist", "index.html"));
   });
 }
-
 //  Start Server
 app.listen(PORT, () => {
   console.log(` Server running on port ${PORT}`);
