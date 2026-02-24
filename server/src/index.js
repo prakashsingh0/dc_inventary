@@ -11,6 +11,7 @@ import dataCenterRoutes from "./routes/dataCenter.routes.js";
 import componentRoutes from "./routes/component.routes.js";
 import replacementRoutes from "./routes/replacement.routes.js";
 import stockRoutes from "./routes/stocks.routes.js";
+import authRoutes from "./routes/auth.routes.js"
 
 dotenv.config();
 
@@ -26,7 +27,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    origin: process.env.CLIENT_URL || "http://localhost:3000",
     credentials: true,
   })
 );
@@ -35,6 +36,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //  API Routes
+app.use("/api/auth",authRoutes)
 app.use("/api/data-centers", dataCenterRoutes);
 app.use("/api/servers", serverRoutes);
 app.use("/api/components", componentRoutes);

@@ -1,33 +1,98 @@
-import { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import api from "./api/api";
+
 import Navbar from "./components/Navbar";
 import Servers from "./pages/Servers";
 import Stocks from "./pages/Stocks";
 import ReplacementHistory from "./pages/ReplacementHistory";
 import Components from "./pages/Components";
 import DataCenterList from "./pages/DataCenterList";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function App() {
   const [searchValue, setSearchValue] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        await api.get("/auth/profile");
+        setIsAuthenticated(true);
+      } catch {
+        setIsAuthenticated(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+  if (isAuthenticated === null) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <BrowserRouter>
-      <Navbar onSearch={setSearchValue} />
+      {isAuthenticated && <Navbar onSearch={setSearchValue} />}
 
       <Routes>
-        {/* Homepage = Data Centers */}
-        <Route path="/" element={<DataCenterList />} />
-
-        {/*  Servers inside selected Data Center */}
         <Route
-          path="/servers/:dataCenterId"
-          element={<Servers searchValue={searchValue} />}
+          path="/login"
+          element={
+            isAuthenticated ? <Navigate to="/" /> : <Login />
+          }
         />
 
-        {/* Existing */}
-        <Route path="/components/:id" element={<Components />} />
-        <Route path="/stocks" element={<Stocks />} />
-        <Route path="/replacements" element={<ReplacementHistory />} />
+        {/* <Route
+          path="/register"
+          element={
+            isAuthenticated ? <Navigate to="/" /> : <Register />
+          }
+        /> */}
+
+        <Route
+          path="/"
+          element={
+            isAuthenticated ? <DataCenterList /> : <Navigate to="/login" />
+          }
+        />
+
+        <Route
+          path="/servers/:dataCenterId"
+          element={
+            isAuthenticated ? (
+              <Servers searchValue={searchValue} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        <Route
+          path="/components/:id"
+          element={
+            isAuthenticated ? <Components /> : <Navigate to="/login" />
+          }
+        />
+
+        <Route
+          path="/stocks"
+          element={
+            isAuthenticated ? <Stocks /> : <Navigate to="/login" />
+          }
+        />
+
+        <Route
+          path="/replacements"
+          element={
+            isAuthenticated ? (
+              <ReplacementHistory />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
