@@ -1,12 +1,13 @@
 import express from 'express'
 import { addComponent, installFromStock, markComponentFaulty, } from '../controller/component.controller.js'
+import { protect } from '../middleware/auth.middleware.js';
 
 
 const router = express.Router()
 
-router.post(`/`,addComponent)
-router.put("/:id/faulty", markComponentFaulty);
-router.post("/install-from-stock", installFromStock);
+router.post(`/`, protect, addComponent)
+router.put("/:id/faulty", protect, markComponentFaulty);
+router.post("/install-from-stock", protect, installFromStock);
 
 
 
