@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import api from "../api/api";
 import AddServerModal from "../components/AddServerModal";
 
 const Servers = ({ searchValue }) => {
+  const { dataCenterId } = useParams(); // ✅ get dc id from URL
   const [servers, setServers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showAdd, setShowAdd] = useState(false);
@@ -11,12 +12,15 @@ const Servers = ({ searchValue }) => {
 
   useEffect(() => {
     fetchServers();
-  }, []);
+  }, [dataCenterId]); // ✅ refetch if dc changes
 
   const fetchServers = async () => {
     try {
       setLoading(true);
-      const res = await api.get("/servers/location/Mumbai");
+
+      // ✅ fetch by dataCenterId
+      const res = await api.get(`/servers/${dataCenterId}`);
+
       setServers(res.data.data);
     } catch (err) {
       console.error("Failed to fetch servers", err);
@@ -40,12 +44,13 @@ const Servers = ({ searchValue }) => {
           className="btn btn-success"
           onClick={() => setShowAdd(!showAdd)}
         >
-          Add Server
+          {showAdd ? "Close" : "Add Server"}
         </button>
       </div>
 
       {showAdd && (
         <AddServerModal
+          dataCenterId={dataCenterId} // ✅ pass dc id
           onSuccess={() => {
             setShowAdd(false);
             fetchServers();
@@ -68,16 +73,18 @@ const Servers = ({ searchValue }) => {
           <tbody>
             {filteredServers.length > 0 ? (
               filteredServers.map((s) => (
-                <tr key={s._id}> 
+                <tr key={s._id}>
                   <td
                     className="text-primary fw-bold"
                     style={{ cursor: "pointer" }}
-                    onClick={() => navigate(`/servers/${s._id}`)} 
+                    onClick={() =>
+                      navigate(`/components/${s._id}`)
+                    }
                   >
                     {s.host_name}
                   </td>
                   <td>{s.ip_address}</td>
-                  <td>{s.location}</td> 
+                  <td>{s.location}</td>
                   <td>
                     {s.amber_light ? (
                       <span className="badge bg-warning text-dark">

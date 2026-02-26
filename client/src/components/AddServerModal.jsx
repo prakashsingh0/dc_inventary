@@ -29,7 +29,10 @@ const AddServerModal = ({ onSuccess }) => {
 
   const handleSubmit = async () => {
     try {
+      console.log(form);
       if (!form.data_center || !form.host_name || !form.ip_address) {
+        console.log(form);
+        
         alert("Data Center, Host Name and IP Address are required");
         return;
       }
