@@ -2,27 +2,48 @@ import mongoose from "mongoose";
 
 const stockSchema = new mongoose.Schema(
   {
-    component_type: { type: String, required: true },
-
-    model_no: String,
-
-    part_no: String,                 // 🔹 NEW
-
-    asset_tag_no: {                  // 🔹 NEW
+    component_type: {
       type: String,
-      unique: true,
-      sparse: true                   // allows null values without breaking unique
+      required: true,
+      enum: ["RAM", "HDD"], //  restrict values
+      index: true           //  improves filtering performance
     },
 
-    ticket_no: String,               // 🔹 NEW
+    model_no: {
+      type: String,
+      required: true
+    },
 
-    ddr_type: String,
+    part_no: String,
 
-    capacity_value: Number,
+    asset_tag_no: {
+      type: String,
+      unique: true,
+      sparse: true
+    },
 
-    capacity_unit: String,
+    ticket_no: String,
+
+    //  RAM specific
+    ddr_type: {
+      type: String,
+      enum: ["DDR3", "DDR4", "DDR5", null],
+      default: null
+    },
 
     speed: String,
+
+    //  Capacity (works for both RAM & HDD)
+    capacity_value: {
+      type: Number,
+      required: true
+    },
+
+    capacity_unit: {
+      type: String,
+      enum: ["GB", "TB"],
+      required: true
+    },
 
     serial_no: {
       type: String,
@@ -33,7 +54,8 @@ const stockSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ["Available", "Installed"],
-      default: "Available"
+      default: "Available",
+      index: true
     },
 
     server: {

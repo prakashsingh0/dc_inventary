@@ -15,8 +15,11 @@ const AddStockModal = ({ onSuccess }) => {
     serial_no: ""
   });
 
+  const [loading, setLoading] = useState(false);
+
   const handleSubmit = async () => {
     try {
+      // 🔹 Basic validation
       if (
         !form.component_type ||
         !form.model_no ||
@@ -24,30 +27,41 @@ const AddStockModal = ({ onSuccess }) => {
         !form.capacity_unit ||
         !form.serial_no
       ) {
-        alert("Required fields missing");
+        alert("Please fill all required fields");
         return;
       }
 
+      // 🔹 RAM specific validation
+      if (form.component_type === "RAM" && !form.ddr_type) {
+        alert("DDR type is required for RAM");
+        return;
+      }
+
+      setLoading(true);
+
       await api.post("/stocks/add", {
         ...form,
-        capacity_value: Number(form.capacity_value) // ✅ ensure number
+        capacity_value: Number(form.capacity_value)
       });
 
       onSuccess();
     } catch (err) {
       alert(err.response?.data?.message || "Failed to add stock");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="card p-3 mt-3">
-      <h5>Add Stock</h5>
+    <div className="card p-3 mt-3 shadow-sm">
+      <h5 className="mb-3">Add Stock</h5>
 
+      {/* Component Type */}
       <select
         className="form-control mb-2"
         value={form.component_type}
         onChange={(e) =>
-          setForm({ ...form, component_type: e.target.value })
+          setForm({ ...form, component_type: e.target.value, ddr_type: "" })
         }
       >
         <option value="">Select Type</option>
@@ -57,7 +71,7 @@ const AddStockModal = ({ onSuccess }) => {
 
       <input
         className="form-control mb-2"
-        placeholder="Model Number"
+        placeholder="Model Number *"
         value={form.model_no}
         onChange={(e) =>
           setForm({ ...form, model_no: e.target.value })
@@ -91,6 +105,7 @@ const AddStockModal = ({ onSuccess }) => {
         }
       />
 
+      {/* RAM Only */}
       {form.component_type === "RAM" && (
         <select
           className="form-control mb-2"
@@ -99,7 +114,7 @@ const AddStockModal = ({ onSuccess }) => {
             setForm({ ...form, ddr_type: e.target.value })
           }
         >
-          <option value="">Select DDR</option>
+          <option value="">Select DDR *</option>
           <option value="DDR3">DDR3</option>
           <option value="DDR4">DDR4</option>
           <option value="DDR5">DDR5</option>
@@ -109,7 +124,7 @@ const AddStockModal = ({ onSuccess }) => {
       <input
         type="number"
         className="form-control mb-2"
-        placeholder="Capacity"
+        placeholder="Capacity *"
         value={form.capacity_value}
         onChange={(e) =>
           setForm({ ...form, capacity_value: e.target.value })
@@ -137,16 +152,20 @@ const AddStockModal = ({ onSuccess }) => {
       />
 
       <input
-        className="form-control mb-2"
-        placeholder="Serial Number"
+        className="form-control mb-3"
+        placeholder="Serial Number *"
         value={form.serial_no}
         onChange={(e) =>
           setForm({ ...form, serial_no: e.target.value })
         }
       />
 
-      <button className="btn btn-primary w-100" onClick={handleSubmit}>
-        Add Stock
+      <button
+        className="btn btn-primary w-100"
+        onClick={handleSubmit}
+        disabled={loading}
+      >
+        {loading ? "Adding..." : "Add Stock"}
       </button>
     </div>
   );
