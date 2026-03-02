@@ -16,18 +16,27 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        await api.get("/auth/profile");
-        setIsAuthenticated(true);
-      } catch {
-        setIsAuthenticated(false);
-      }
-    };
+  const checkAuth = async () => {
+    try {
+      await api.get("/auth/profile");
+      setIsAuthenticated(true);
+    } catch {
+      setIsAuthenticated(false);
+    }
+  };
 
+  // Run immediately on load
+  checkAuth();
+
+  // Run every 5 minutes (300000 ms)
+  const interval = setInterval(() => {
     checkAuth();
-  }, []);
+  }, 5 * 60 * 1000);
 
+  // Cleanup when component unmounts
+  return () => clearInterval(interval);
+
+}, []);
   if (isAuthenticated === null) {
     return <div>Loading...</div>;
   }

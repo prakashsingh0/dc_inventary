@@ -34,13 +34,13 @@ const Stocks = () => {
     (stock) => stock.component_type === "HDD"
   );
 
-  const renderTable = (data) => (
+  const renderTable = (data,type) => (
     <table className="table table-bordered table-striped mt-3">
       <thead className="table-dark">
         <tr>
           <th>ID</th>
           <th>Model</th>
-          <th>DDR</th>
+          <th>{type === 'HDD'? 'Part no.':'DDR'}</th>
           <th>Capacity</th>
           <th>Speed</th>
           <th>Serial No</th>
@@ -54,7 +54,7 @@ const Stocks = () => {
             <tr key={stock._id}>
               <td>{stock._id}</td>
               <td>{stock.model_no}</td>
-              <td>{stock.ddr_type || "-"}</td>
+              <td>{stock.ddr_type || stock.part_no}</td>
               <td>
                 {stock.capacity_value} {stock.capacity_unit}
               </td>
@@ -135,11 +135,11 @@ const Stocks = () => {
 
       {/* 🔥 RAM Section */}
       <h4 className="mt-4">RAM</h4>
-      {renderTable(ramStocks)}
+      {renderTable(ramStocks,'RAM')}
 
       {/* 🔥 HDD Section */}
       <h4 className="mt-5">HDD</h4>
-      {renderTable(hddStocks)}
+      {renderTable(hddStocks,'HDD')}
     </div>
   );
 };
