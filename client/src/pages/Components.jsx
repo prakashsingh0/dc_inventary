@@ -64,7 +64,7 @@ const Components = () => {
           <tbody>
             {components.length > 0 ? (
               components.map((c) => (
-                <tr key={c._id}> {/* ✅ Mongo uses _id */}
+                <tr key={c._id}> {/*  Mongo uses _id */}
                   <td>{c.component_type}</td>
                   <td>{c.slot}</td>
                   <td>

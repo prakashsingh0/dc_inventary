@@ -32,7 +32,7 @@ const AddComponentModal = ({ serverId, onSuccess }) => {
         return;
       }
 
-      await api.post("/component/install-from-stock", {  // ✅ fixed route
+      await api.post("/component/install-from-stock", {  //  fixed route
         server_id: serverId,
         stock_id: selectedStock,
         slot
@@ -55,7 +55,7 @@ const AddComponentModal = ({ serverId, onSuccess }) => {
       >
         <option value="">Select Available Stock</option>
         {stocks.map((s) => (
-          <option key={s._id} value={s._id}>   {/* ✅ Mongo _id */}
+          <option key={s._id} value={s._id}>   {/*  Mongo _id */}
             {s.component_type} | {s.model_no} | {s.serial_no}
           </option>
         ))}

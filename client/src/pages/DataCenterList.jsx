@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/api";
-import AddDataCenter from "../components/AddDataCenter"; // ✅ IMPORT
+import AddDataCenter from "../components/AddDataCenter"; //  IMPORT
 
 const DataCenterList = () => {
   const [dataCenters, setDataCenters] = useState([]);
-  const [showAdd, setShowAdd] = useState(false); // ✅ Toggle state
+  const [showAdd, setShowAdd] = useState(false); //  Toggle state
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const DataCenterList = () => {
       <div className="d-flex justify-content-between align-items-center">
         <h2>Data Centers</h2>
 
-        {/* ✅ Add Button */}
+        {/*  Add Button */}
         <button
           className="btn btn-success"
           onClick={() => setShowAdd(!showAdd)}
@@ -35,7 +35,7 @@ const DataCenterList = () => {
         </button>
       </div>
 
-      {/* ✅ Show AddDataCenter Component */}
+      {/*  Show AddDataCenter Component */}
       {showAdd && (
         <AddDataCenter
           onSuccess={() => {

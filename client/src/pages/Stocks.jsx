@@ -20,12 +20,12 @@ const Stocks = () => {
     }
   };
 
-  // ✅ Filter by status first
+  //  Filter by status first
   const filteredStocks = stocks.filter(
     (stock) => stock.status === filter
   );
 
-  // ✅ Divide into RAM & HDD
+  //  Divide into RAM & HDD
   const ramStocks = filteredStocks.filter(
     (stock) => stock.component_type === "RAM"
   );
@@ -133,11 +133,11 @@ const Stocks = () => {
         </button>
       </div>
 
-      {/* 🔥 RAM Section */}
+      {/*  RAM Section */}
       <h4 className="mt-4">RAM</h4>
       {renderTable(ramStocks,'RAM')}
 
-      {/* 🔥 HDD Section */}
+      {/*  HDD Section */}
       <h4 className="mt-5">HDD</h4>
       {renderTable(hddStocks,'HDD')}
     </div>

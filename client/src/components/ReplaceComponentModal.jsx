@@ -28,7 +28,7 @@ const ReplaceComponentModal = ({ serverId, oldComponentId, onSuccess }) => {
         return;
       }
 
-      await api.post("/replacements/replace", {   // ✅ Correct route
+      await api.post("/replacements/replace", {   //  Correct route
         server_id: serverId,
         old_component_id: oldComponentId,
         stock_id: selectedStock,
@@ -52,7 +52,7 @@ const ReplaceComponentModal = ({ serverId, oldComponentId, onSuccess }) => {
       >
         <option value="">Select Stock</option>
         {stocks.map((s) => (
-          <option key={s._id} value={s._id}>  {/* ✅ Mongo _id */}
+          <option key={s._id} value={s._id}>  {/*  Mongo _id */}
             {s.component_type} - {s.serial_no}
           </option>
         ))}

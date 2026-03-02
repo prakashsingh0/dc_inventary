@@ -35,7 +35,7 @@ const ReplacementHistory = () => {
         <tbody>
           {history.length > 0 ? (
             history.map((item) => (
-              <tr key={item._id}> {/* ✅ Mongo _id */}
+              <tr key={item._id}> {/*  Mongo _id */}
                 <td>{item._id}</td>
 
                 <td>{item.server?.host_name}</td>

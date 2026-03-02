@@ -44,7 +44,7 @@ const Navbar = ({ onSearch }) => {
 
       <div className="d-flex align-items-center">
 
-        {/* 🔍 Search ONLY on Servers page */}
+        {/*  Search ONLY on Servers page */}
         {location.pathname.includes("/servers") && (
           <div className="d-flex me-3">
             <input
@@ -64,7 +64,7 @@ const Navbar = ({ onSearch }) => {
           </div>
         )}
 
-        {/* 🚪 Logout Button */}
+        {/*  Logout Button */}
         <button
           className="btn btn-danger"
           onClick={handleLogout}

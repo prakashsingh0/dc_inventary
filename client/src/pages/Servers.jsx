@@ -4,7 +4,7 @@ import api from "../api/api";
 import AddServerModal from "../components/AddServerModal";
 
 const Servers = ({ searchValue }) => {
-  const { dataCenterId } = useParams(); // ✅ get dc id from URL
+  const { dataCenterId } = useParams(); //  get dc id from URL
   const [servers, setServers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showAdd, setShowAdd] = useState(false);
@@ -12,13 +12,13 @@ const Servers = ({ searchValue }) => {
 
   useEffect(() => {
     fetchServers();
-  }, [dataCenterId]); // ✅ refetch if dc changes
+  }, [dataCenterId]); //  refetch if dc changes
 
   const fetchServers = async () => {
     try {
       setLoading(true);
 
-      // ✅ fetch by dataCenterId
+      //  fetch by dataCenterId
       const res = await api.get(`/servers/${dataCenterId}`);
 
       setServers(res.data.data);
@@ -50,7 +50,7 @@ const Servers = ({ searchValue }) => {
 
       {showAdd && (
         <AddServerModal
-          dataCenterId={dataCenterId} // ✅ pass dc id
+          dataCenterId={dataCenterId} //  pass dc id
           onSuccess={() => {
             setShowAdd(false);
             fetchServers();

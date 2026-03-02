@@ -19,7 +19,7 @@ const AddStockModal = ({ onSuccess }) => {
 
   const handleSubmit = async () => {
     try {
-      // 🔹 Basic validation
+      //  Basic validation
       if (
         !form.component_type ||
         !form.model_no ||
@@ -31,7 +31,7 @@ const AddStockModal = ({ onSuccess }) => {
         return;
       }
 
-      // 🔹 RAM specific validation
+      //  RAM specific validation
       if (form.component_type === "RAM" && !form.ddr_type) {
         alert("DDR type is required for RAM");
         return;
