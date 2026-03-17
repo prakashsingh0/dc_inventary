@@ -32,7 +32,7 @@ const AddComponentModal = ({ serverId, onSuccess }) => {
         return;
       }
 
-      await api.post("/component/install-from-stock", {  //  fixed route
+      await api.post("/components/install-from-stock", {  //  fixed route
         server_id: serverId,
         stock_id: selectedStock,
         slot
